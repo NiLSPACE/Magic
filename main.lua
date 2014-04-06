@@ -36,3 +36,17 @@ function HandleMagicCommand(a_Split, a_Player)
 	a_Player:SendMessage(cChatColor.LightGreen .. "You selected " .. a_Split[2] .. " as your magic.")
 	return true
 end
+
+
+
+
+
+
+function OnDisable()
+	cRoot:Get():ForEachPlayer(
+		function(a_Player)
+			local PlayerState = GetPlayerState(a_Player)
+			PlayerState:OnDisable()
+		end
+	)
+end

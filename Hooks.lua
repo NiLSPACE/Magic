@@ -97,5 +97,5 @@ function OnHitEntity(a_Receiver, a_TDI)
 	
 	local Player = tolua.cast(a_TDI.Attacker, "cPlayer")
 	local PlayerState = GetPlayerState(Player)
-	return PlayerState:OnHitEntity(Player, a_Receiver)
+	return PlayerState:OnHitEntity(Player, a_Receiver, a_TDI)
 end

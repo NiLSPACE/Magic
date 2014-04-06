@@ -81,7 +81,7 @@ function cFireDragon(a_User)
 		end
 	end
 	
-	function self:OnHitEntity(a_Player, a_Receiver)
+	function self:OnHitEntity(a_Player, a_Receiver, a_TDI)
 		a_Receiver:StartBurning(50)
 	end
 	

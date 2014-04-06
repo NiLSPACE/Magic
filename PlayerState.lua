@@ -12,7 +12,12 @@ function cPlayerState(a_Player)
 		
 		for Idx, MagicName in ipairs(AvailableMagic) do
 			if ((MagicName ~= ".") and (MagicName ~= "..")) then
-				Magic[MagicName:sub(1, MagicName:len() - 4):upper()] = loadfile(g_PluginFolder .. "/Magic/" .. MagicName)(a_Player)
+				local Loader, error = loadfile(g_PluginFolder .. "/Magic/" .. MagicName)
+				if (not Loader) then
+					LOGWARNING("Could not load " .. MagicName .. ": " .. error)
+				else
+					Magic[MagicName:sub(1, MagicName:len() - 4):upper()] = Loader(a_Player)
+				end
 			end
 		end
 	end
@@ -62,9 +67,9 @@ function cPlayerState(a_Player)
 			end
 		end
 		
-		function self:OnHitEntity(a_Player, a_Receiver)
+		function self:OnHitEntity(a_Player, a_Receiver, a_TDI)
 			if (CurrentMagic["OnHitEntity"] ~= nil) then
-				return CurrentMagic["OnHitEntity"](nil, a_Player, a_Receiver)
+				return CurrentMagic["OnHitEntity"](nil, a_Player, a_Receiver, a_TDI)
 			end
 		end
 		
@@ -77,6 +82,14 @@ function cPlayerState(a_Player)
 		function self:OnSelect()
 			if (CurrentMagic["OnSelect"] ~= nil) then
 				CurrentMagic["OnSelect"]()
+			end
+		end
+		
+		function self:OnDisable()
+			for Key, Data in pairs(Magic) do
+				if (Data["OnDisable"] ~= nil) then
+					Data["OnDisable"]()
+				end
 			end
 		end
 	end -- do
