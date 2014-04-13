@@ -26,14 +26,16 @@ function HandleMagicCommand(a_Split, a_Player)
 		return true
 	end
 	
+	local MagicName = table.concat(a_Split, " ", 2)
 	local PlayerState = GetPlayerState(a_Player)
-	local Succes, error = PlayerState:SelectMagic(a_Split[2])
+	
+	local Succes, error = PlayerState:SelectMagic(MagicName)
 	if (not Succes) then
 		a_Player:SendMessage(cChatColor.Rose .. error)
 		return true
 	end
 	
-	a_Player:SendMessage(cChatColor.LightGreen .. "You selected " .. a_Split[2] .. " as your magic.")
+	a_Player:SendMessage(cChatColor.LightGreen .. "You selected " .. MagicName .. " as your magic.")
 	return true
 end
 
