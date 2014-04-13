@@ -1,13 +1,9 @@
-function GetFireDragonsRoarCallbacks(a_World)
-	local Strength = 6
+local function GetFireDragonsRoarCallbacks(a_World)
 	return {
 		OnNextBlock = function(BlockX, BlockY, BlockZ, BlockType, BlockMeta)
 			if (BlockType ~= E_BLOCK_AIR) then
-				if (Strength == 0) then
-					-- abort the trace
-					return true;
-				end
-				Strength = Strength - 1
+				-- abort the trace
+				return true;
 			end
 			for X=-1, 1 do
 				for Z=-1, 1 do
@@ -41,7 +37,6 @@ Spells["FIRE DRAGONS ROAR!"] = function(a_Player, a_Message)
 	a_Player:SetFoodLevel(a_Player:GetFoodLevel() - 7)
 end
 
-
 function cFireDragon(a_User)
 	local self = {}
 	local PlayerName = a_User:GetName()
@@ -55,8 +50,15 @@ function cFireDragon(a_User)
 	
 	-- Explode when hitting something
 	function self:OnPlayerLeftClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_Action)
+		if (a_BlockFace == BLOCK_FACE_NONE) then
+			return false
+		end
+		
 		local World = a_Player:GetWorld()
-		World:DoExplosionAt(1, a_BlockX, a_BlockY, a_BlockZ, true, esPlugin, nil)
+		if (a_Player:GetFoodLevel() > 0.5) then
+			World:DoExplosionAt(1, a_BlockX, a_BlockY, a_BlockZ, true, esPlugin, nil)
+		end
+		a_Player:SetFoodLevel(a_Player:GetFoodLevel() - 0.5)
 	end
 	
 	-- fire or explosions are nothing if you can eat them
