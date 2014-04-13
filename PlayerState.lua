@@ -16,7 +16,12 @@ function cPlayerState(a_Player)
 				if (not Loader) then
 					LOGWARNING("Could not load " .. MagicName .. ": " .. error)
 				else
-					Magic[MagicName:sub(1, MagicName:len() - 4):upper()] = Loader(a_Player)
+					local MagicHandler = Loader(a_Player)
+					if (type(MagicHandler) ~= 'table') then
+						LOGWARNING("[Magic] " .. MagicName .. " did not return a handler.")
+					else
+						Magic[MagicName:sub(1, MagicName:len() - 4):upper()] = MagicHandler
+					end
 				end
 			end
 		end
@@ -52,6 +57,12 @@ function cPlayerState(a_Player)
 		function self:OnChat(a_Player, a_Message)
 			if (CurrentMagic["OnChat"] ~= nil) then
 				return CurrentMagic["OnChat"](nil, a_Player, a_Message)
+			end
+		end
+		
+		function self:OnExecuteCommand(a_Player, a_Command)
+			if (CurrentMagic["OnExecuteCommand"] ~= nil) then
+				return CurrentMagic["OnExecuteCommand"](nil, a_Player, a_Command)
 			end
 		end
 		

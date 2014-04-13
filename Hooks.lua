@@ -4,6 +4,7 @@ function RegisterHooks()
 	cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_LEFT_CLICK,            OnPlayerLeftClick)
 	cPluginManager:AddHook(cPluginManager.HOOK_PLAYER_MOVING,                OnPlayerMoving)
 	cPluginManager:AddHook(cPluginManager.HOOK_CHAT,                         OnChat)
+	cPluginManager:AddHook(cPluginManager.HOOK_EXECUTE_COMMAND,              OnExecuteCommand)
 	cPluginManager:AddHook(cPluginManager.HOOK_KILLING,                      OnKilling)
 	cPluginManager:AddHook(cPluginManager.HOOK_TAKE_DAMAGE,                  OnTakeDamage)
 	cPluginManager:AddHook(cPluginManager.HOOK_TAKE_DAMAGE,                  OnHitEntity)
@@ -52,6 +53,19 @@ end
 function OnChat(a_Player, a_Message)
 	local PlayerState = GetPlayerState(a_Player)
 	return PlayerState:OnChat(a_Player, a_Message)
+end
+
+
+
+
+
+function OnExecuteCommand(a_Player, a_Message)
+	if (not a_Player) then
+		return false
+	end
+	
+	local PlayerState = GetPlayerState(a_Player)
+	return PlayerState:OnExecuteCommand(a_Player, a_Message)
 end
 
 
