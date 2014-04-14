@@ -1,4 +1,5 @@
 local function GetFireDragonsRoarCallbacks(a_World)
+	local ExplosionSize = 1
 	return {
 		OnNextBlock = function(BlockX, BlockY, BlockZ, BlockType, BlockMeta)
 			if (BlockType ~= E_BLOCK_AIR) then
@@ -10,7 +11,8 @@ local function GetFireDragonsRoarCallbacks(a_World)
 					a_World:BroadcastSoundParticleEffect(2004, (BlockX + X)*8, (BlockY)*8, (BlockZ + Z)*8, BlockType)
 				end
 			end
-			a_World:DoExplosionAt(3, BlockX, BlockY, BlockZ, true, esPlugin, nil);
+			a_World:DoExplosionAt(ExplosionSize, BlockX, BlockY, BlockZ, true, esPlugin, nil);
+			ExplosionSize = ExplosionSize + 0.05
 		end
 	};
 end
