@@ -70,6 +70,7 @@ function cFireDragon(a_User)
 		end
 	end
 	
+	local FireCheckTimer = 0
 	-- Fire dragons can eat fire.
 	function self:OnPlayerMoving(a_Player)
 		if (a_Player:IsOnFire()) then
@@ -79,9 +80,42 @@ function cFireDragon(a_User)
 			
 		local World = a_Player:GetWorld()
 		local Pos = a_Player:GetPosition()
+		
 		if (World:GetBlock(Vector3i(Pos)) == E_BLOCK_FIRE) then
 			World:SetBlock(Pos.x, Pos.y, Pos.z, E_BLOCK_AIR, 0)
 			a_Player:Feed(2, 5)
+		end
+		
+		if (FireCheckTimer == 5) then
+			local MinX, MaxX = Pos.x - 3, Pos.x + 3
+			local MinY, MaxY = Pos.y, Pos.y + 3
+			local MinZ, MaxZ = Pos.z - 3, Pos.z + 3
+			
+			local BlockArea = cBlockArea()
+			BlockArea:Read(World, MinX, MaxX, MinY, MaxY, MinZ, MaxZ, 3)
+			for X=0, 6 do
+				for Y = 0, 2 do
+					for Z = 0, 6 do
+						if (BlockArea:GetRelBlockType(X, Y, Z) == E_BLOCK_FIRE) then
+							local PosX = Pos.x + X - 3
+							local PosY = Pos.y + Y
+							local PosZ = Pos.z + Z - 3
+							
+							World:SetBlock(PosX, PosY, PosZ, E_BLOCK_AIR, 0)
+							local EntID = World:SpawnFallingBlock(PosX, PosY + 0.5, PosZ, E_BLOCK_FIRE, 0)
+							World:DoWithEntityByID(EntID,
+								function(a_Entity)
+									local Speed = (Pos - a_Entity:GetPosition()) * 1.5
+									a_Entity:SetSpeed(Speed.x, Speed.y + 4, Speed.z)
+								end
+							)
+						end
+					end
+				end
+			end
+			FireCheckTimer = 0
+		else
+			FireCheckTimer = FireCheckTimer + 1
 		end
 	end
 	
