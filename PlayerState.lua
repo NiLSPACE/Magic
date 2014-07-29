@@ -32,74 +32,74 @@ function cPlayerState(a_Player)
 	do -- All the hooks.
 		function self:OnPlayerRightClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_CursorX, a_CursorY, a_CursorZ)
 			if (CurrentMagic["OnPlayerRightClick"] ~= nil) then
-				return CurrentMagic["OnPlayerRightClick"](nil, a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_CursorX, a_CursorY, a_CursorZ)
+				return CurrentMagic:OnPlayerRightClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_CursorX, a_CursorY, a_CursorZ)
 			end
 		end
 		
 		function self:OnPlayerRightClickingEntity(a_Player, a_Entity)
 			if (CurrentMagic["OnPlayerRightClickingEntity"] ~= nil) then
-				return CurrentMagic["OnPlayerRightClickingEntity"](nil, a_Player, a_Entity)
+				return CurrentMagic:OnPlayerRightClickingEntity(a_Player, a_Entity)
 			end
 		end
 		
 		function self:OnPlayerLeftClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_Action)
 			if (CurrentMagic["OnPlayerLeftClick"] ~= nil) then
-				return CurrentMagic["OnPlayerLeftClick"](nil, a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_Action)
+				return CurrentMagic:OnPlayerLeftClick(a_Player, a_BlockX, a_BlockY, a_BlockZ, a_BlockFace, a_Action)
 			end
 		end
 		
 		function self:OnPlayerMoving(a_Player)
 			if (CurrentMagic["OnPlayerMoving"] ~= nil) then
-				return CurrentMagic["OnPlayerMoving"](nil, a_Player)
+				return CurrentMagic:OnPlayerMoving(a_Player)
 			end
 		end
 		
 		function self:OnChat(a_Player, a_Message)
 			if (CurrentMagic["OnChat"] ~= nil) then
-				return CurrentMagic["OnChat"](nil, a_Player, a_Message)
+				return CurrentMagic:OnChat(a_Player, a_Message)
 			end
 		end
 		
 		function self:OnExecuteCommand(a_Player, a_Command)
 			if (CurrentMagic["OnExecuteCommand"] ~= nil) then
-				return CurrentMagic["OnExecuteCommand"](nil, a_Player, a_Command)
+				return CurrentMagic:OnExecuteCommand(a_Player, a_Command)
 			end
 		end
 		
 		function self:OnKilling(a_Victim, a_Killer)
 			if (CurrentMagic["OnKilling"] ~= nil) then
-				return CurrentMagic["OnKilling"](nil, a_Victim, a_Killer)
+				return CurrentMagic:OnKilling(a_Victim, a_Killer)
 			end
 		end
 		
 		function self:OnTakeDamage(a_Receiver, a_TDI)
 			if (CurrentMagic["OnTakeDamage"] ~= nil) then
-				return CurrentMagic["OnTakeDamage"](nil, a_Receiver, a_TDI)
+				return CurrentMagic:OnTakeDamage(a_Receiver, a_TDI)
 			end
 		end
 		
 		function self:OnHitEntity(a_Player, a_Receiver, a_TDI)
 			if (CurrentMagic["OnHitEntity"] ~= nil) then
-				return CurrentMagic["OnHitEntity"](nil, a_Player, a_Receiver, a_TDI)
+				return CurrentMagic:OnHitEntity(a_Player, a_Receiver, a_TDI)
 			end
 		end
 		
 		function self:OnDeselect()
 			if (CurrentMagic["OnDeselect"] ~= nil) then
-				CurrentMagic["OnDeselect"]()
+				CurrentMagic:OnDeselect()
 			end
 		end
 		
 		function self:OnSelect()
 			if (CurrentMagic["OnSelect"] ~= nil) then
-				CurrentMagic["OnSelect"]()
+				CurrentMagic:OnSelect()
 			end
 		end
 		
 		function self:OnDisable()
 			for Key, Data in pairs(Magic) do
 				if (Data["OnDisable"] ~= nil) then
-					Data["OnDisable"]()
+					Data:OnDisable()
 				end
 			end
 		end
